@@ -39,11 +39,11 @@ def generate_materialui_api():
 
     src = f'{build_dir}/material-ui'
     package = json.loads(open(f'{here}/../js/package-lock.json').read())
-    version = package['dependencies']['@material-ui/core']['version'].replace('^', '')
+    version = package['dependencies']['@mui/material']['version'].replace('^', '')
 
     if not os.path.isdir(src):
         subprocess.check_call(
-            f'git clone https://github.com/mui-org/material-ui.git {src}',
+            f'git clone https://github.com/mui/material-ui.git {src}',
             shell=True)
 
     for cmd in ['git reset --hard HEAD',
@@ -52,27 +52,27 @@ def generate_materialui_api():
                 f'{here}/node_modules/.bin/yarn']:
         subprocess.check_call(cmd, cwd=src, shell=True)
 
-    shutil.copy2(f'{here}/buildApiJson.js', f'{src}/docs/scripts/')
+    shutil.copy2(f'{here}/buildApiJson.ts', f'{src}/docs/scripts/')
 
     script_name = 'gen_api_json'
-
+    
     for line in fileinput.input(f'{src}/package.json', inplace=1):
-        cmd = 'cross-env BABEL_ENV=test babel-node ./docs/scripts/buildApiJson.js'
+        cmd = 'cross-env BABEL_ENV=development __NEXT_EXPORT_TRAILING_SLASH=true babel-node --extensions \\".tsx,.ts,.js\\" ./docs/scripts/buildApiJson.ts'
         marker = '"scripts": {'
         if marker in line:
             print(f'{marker}\n    "{script_name}": "'
-                  f'{cmd} ./packages/material-ui/src {materialui_core_api} && '
-                  f'{cmd} ./packages/material-ui-lab/src {materialui_lab_api}",')
+                  f'{cmd} ./packages/mui-material/src {materialui_core_api} && '
+                  f'{cmd} ./packages/mui-lab/src {materialui_lab_api}",')
         else:
             print(line, end='')
-
+    
     subprocess.check_call(f'npm run {script_name}', cwd=src, shell=True)
 
 
 def generate():
     if not os.path.isdir(build_dir):
         os.mkdir(build_dir)
-
+    
     subprocess.check_call('npm install', cwd=here, shell=True)
 
     generate_materialui_api()
@@ -114,3 +114,5 @@ def generate():
         f'{widgetgen} -p json -o {destination_lab_python} -t {python_lab_template} '
         f'{widget_gen_lab_schema} python',
         shell=True)
+    
+    subprocess.check_call(f'npm run build', cwd=f'{here}/../js', shell=True)

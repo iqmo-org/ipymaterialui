@@ -28,7 +28,7 @@
     "watch:lib": "babel src --out-dir lib --copy-files --watch --verbose",
     "build:bundle": "webpack",
     "watch:bundle": "webpack --mode development --watch",
-    "prepare": "run-s build:*",
+    "build": "run-s build:*",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "run-p watch:*",
     "lint": "eslint src/**/*.js src/**/*.jsx"
@@ -39,6 +39,7 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "@mui/lab": "^5.0.0-alpha.91",
     "css-loader": "^1.0.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
@@ -53,15 +54,16 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@jupyter-widgets/base": "^1.0.0 || ^2.0.0",
-    "@material-ui/core": "^4.2.1",
-    "@material-ui/lab": "^4.0.0-alpha.20",
+    "@mui/material": "^5.9.1",
     "core-js": "^3.1.4",
     "lodash": "^4.17.15",
     "material-design-icons-iconfont": "^5.0.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typeface-roboto": "0.0.54"
   },
   "jupyterlab": {

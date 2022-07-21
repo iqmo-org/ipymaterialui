@@ -172,7 +172,7 @@ def make_prop(prop_data):
 
 
 def get_props_of_widget(widget_data):
-    parent = widget_data['inheritance'] and widget_data['inheritance']['component']
+    parent = widget_data['inheritance'] and widget_data['inheritance']['name']
 
     if widget_data['name'] == 'MenuItem':
         widget_data['props']['value'] = {'type': {'name': 'any'}}
@@ -211,6 +211,5 @@ def generate_schema(materialui_api_file_name, base_schema_file_name, schema_outp
     widgets = filter(identity, map(make_widget, api_data))
 
     schema = {'widgets': {**base_schema['widgets'], **dict(widgets)}}
-
     with open(schema_output_file_name, 'w') as outfile:
         json.dump(schema, outfile)

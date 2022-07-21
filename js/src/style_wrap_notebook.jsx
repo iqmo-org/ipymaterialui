@@ -1,10 +1,10 @@
 // This is a specific 'fix' for the notebook only, since its fontsize is non-16
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
-const theme = createMuiTheme({
+const theme = createTheme({
     typography: {
         // Tell Material-UI what the font-size on the html element is.
         htmlFontSize: 10,
@@ -14,9 +14,9 @@ const theme = createMuiTheme({
 
 function FontSizeTheme({ children }) {
     return (
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
             <Typography component="span">{children}</Typography>
-        </MuiThemeProvider>
+        </ThemeProvider>
     );
 }
 
